@@ -2,6 +2,7 @@
  * Module dependencies.
  */
 var express = require('express');
+var session = require('express-session');
 var routes = require('./routes');
 
 var http = require('http');
@@ -11,13 +12,14 @@ var settings = require('./settings');
 var flash = require('connect-flash');
 var app = express();
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3001);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(flash());
 app.use(express.favicon());
 app.use(express.logger('dev'));
-app.use(express.bodyParser());
+//keepExtensions保留上传文件的后缀名
+app.use(express.bodyParser({keepExtensions:true,uploadDir:'./public/images'}));
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session({
